@@ -6,7 +6,7 @@ require('mongoose-schema-jsonschema')(mongoose);
 const books = mongoose.Schema({
   title: { type: String, required: true },
   author: { type: String, required: true },
-  isbn: { type: String, required: true },
+  isbn: { type: String, required: true /*, unique: true*/ },
   image_url: { type: String, required: true },
   description: { type: String, required: true },
   bookshelf_id: { type: String, required: true },
