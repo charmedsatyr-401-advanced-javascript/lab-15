@@ -1,37 +1,46 @@
+'use strict';
+
 const router = require('express').Router();
 const { word } = require('faker').lorem;
 
-const books = require('../models/books/books.model.js');
+// Import middleware
 const auth = require('../auth/middleware.js');
+const modelFinder = require('../middleware/model-finder.js');
+
+// Dynamically evaluate the model
+router.param('model', modelFinder);
 
 router.post(
-  '/api/v1/random-book',
+  `/api/v1/:model/random`,
   auth('read'),
   auth('create'),
   auth('update'),
   auth('delete'),
-  randomBook
+  randomRecord
 );
 
 /**
- * Generate a random book for testing purposes
+ * Generate a random record for testing purposes
+ * TODO: Currently hardcoded to use the `book` model's attributes but could be
+ * made more dynamic through dynamic key and value-type setting
+ * based on the model's Mongoose schema.
  * @function
- * @name randomBook
+ * @name randomRecord
  * @param req {object} Express request object
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  **/
-function randomBook(req, res, next) {
-  const book = {
+function randomRecord(req, res, next) {
+  const record = {
     title: word(),
     author: word(),
     isbn: word(),
     image_url: word(),
     description: word(),
-    bookshelf_id: word(),
+    bookshelf: word(),
   };
-  books
-    .post(book)
+  req.model
+    .post(record)
     .then(result => res.status(200).send(result))
     .catch(next);
 }

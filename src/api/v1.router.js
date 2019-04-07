@@ -2,16 +2,22 @@
 
 // Create a router instance
 const router = require('express').Router();
-const auth = require('../auth/middleware.js');
-const books = require('../models/books/books.model.js');
 
+// Import middleware
+const auth = require('../auth/middleware.js');
+const modelFinder = require('../middleware/model-finder.js');
+
+// Dynamically evaluate the model
+router.param('model', modelFinder);
+
+// Declare routes
 router.get('/', home);
-router.get('/api/v1/books', getBooks);
-router.get('/api/v1/books/:id', getBooks);
-router.post('/api/v1/books', auth('create'), createBook);
-router.put('/api/v1/books/:id', auth('update'), updateBook);
-router.patch('/api/v1/books/:id', auth('update'), patchBook);
-router.delete('/api/v1/books/:id', auth('delete'), deleteBook);
+router.get(`/api/v1/:model`, getRecords);
+router.get(`/api/v1/:model/:id`, getRecords);
+router.post(`/api/v1/:model`, auth('create'), createRecord);
+router.put(`/api/v1/:model/:id`, auth('update'), updateRecord);
+router.patch(`/api/v1/:model/:id`, auth('update'), patchRecord);
+router.delete(`/api/v1/:model/:id`, auth('delete'), deleteRecord);
 
 /**
  * Display a home page
@@ -26,82 +32,82 @@ function home(req, res, next) {
 }
 
 /**
- * Get all books or one book
+ * Get all or one record
  * @function
- * @name getBooks
+ * @name getAll
  * @param req {object} Express request object
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  **/
-function getBooks(req, res, next) {
+function getRecords(req, res, next) {
   const { id } = req.params;
-  books
+  req.model
     .get(id)
     .then(results => res.status(200).send(results))
     .catch(next);
 }
 
 /**
- * Create a new book
+ * Create a new record
  * @function
- * @name createBook
+ * @name createRecord
  * @param req {object} Express request object
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  **/
-function createBook(req, res, next) {
+function createRecord(req, res, next) {
   const { body } = req;
-  books
+  req.model
     .post(body)
     .then(result => res.status(200).send(result))
     .catch(next);
 }
 
 /**
- * Update a book - upserts if the record does not exist
+ * Update a record - upserts if the record does not exist
  * @function
- * @name updateBook
+ * @name updateRecord
  * @param req {object} Express request object
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  **/
-function updateBook(req, res, next) {
+function updateRecord(req, res, next) {
   const { id } = req.params;
   const { body } = req;
-  books
+  req.model
     .put(id, body)
     .then(result => res.status(200).send(result))
     .catch(next);
 }
 
 /**
- * Patch a new book - does not upsert
+ * Patch a new record - does not upsert
  * @function
- * @name patchBook
+ * @name patchRecord
  * @param req {object} Express request object
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  **/
-function patchBook(req, res, next) {
+function patchRecord(req, res, next) {
   const { id } = req.params;
   const { body } = req;
-  books
+  req.model
     .patch(id, body)
     .then(result => res.status(200).send(result))
     .catch(next);
 }
 
 /**
- * Delete a book
+ * Delete a record
  * @function
- * @name deleteBook
+ * @name deleteRecord
  * @param req {object} Express request object
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  **/
-function deleteBook(req, res, next) {
+function deleteRecord(req, res, next) {
   const { id } = req.params;
-  books
+  req.model
     .delete(id)
     .then(result => res.status(200).send(result))
     .catch(next);
