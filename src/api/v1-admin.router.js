@@ -24,6 +24,7 @@ router.post(
  * TODO: Currently hardcoded to use the `book` model's attributes but could be
  * made more dynamic through dynamic key and value-type setting
  * based on the model's Mongoose schema.
+ * BETTER: Similar functionality could be added through a static method on each model.
  * @function
  * @name randomRecord
  * @param req {object} Express request object
