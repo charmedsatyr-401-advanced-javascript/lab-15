@@ -18,7 +18,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^request$|^response$|^next$" }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^req$|^res$|^next$" }],
     "no-console": "off",
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
