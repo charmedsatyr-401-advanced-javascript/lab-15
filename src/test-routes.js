@@ -5,9 +5,9 @@ const auth = require('./auth/middleware.js');
 const Roles = require('./auth/roles-model.js');
 const Users = require('./auth/users-model.js');
 
-router.get('/', (req, res, next) => {
-  res.status(200).send('Server up and running...');
-});
+// router.get('/', (req, res, next) => {
+//   res.status(200).send('Server up and running...');
+// });
 
 // autopopulate roles
 router.post('/autopopulate-roles', (req, res, next) => {
