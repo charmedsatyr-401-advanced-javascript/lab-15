@@ -26,9 +26,12 @@ Usage Notes or examples
 Usage Notes or examples
 
 ### Setup
-#### `.env` requirements
-* `PORT` - Port Number
+#### `.env` 
 * `MONGODB_URI` - URL to the running mongo instance/db
+* `PORT` - Port number
+* `SECRET` - The key the application uses for JWT token signing
+* `SINGLE_USE_TOKENS` - Boolean for whether single use tokens are issued
+* `TOKEN_EXPIRE` - The amount of time before JWT tokens expire, expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms)
 
 #### Running the app
 * `npm start`
