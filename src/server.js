@@ -27,8 +27,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routers
-const bookRoutes = require('./api/book-routes.js');
-app.use(bookRoutes);
+const authRouter = require('./auth/router.js');
+app.use(authRouter);
+
+const testRoutes = require('./test-routes.js');
+app.use(testRoutes);
+
+// const bookRoutes = require('./api/book-routes.js');
+// app.use(bookRoutes);
 
 // Error route
 const forceErr = (req, res, next) => next('Error!');

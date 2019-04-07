@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Users model - a mongoose schema with custom methods as validation helpers
+ * users model - a mongoose schema with custom methods as validation helpers
  * @module auth/users-model
  */
 
@@ -36,20 +36,12 @@ users.virtual('capabilities', {
 });
 
 /**
- * All three `pre` hooks are probably unnecessary.
- * They ensure `users` have `capabilities` whenever
- * the user is accessed.
+ * These `users.pre` hooks ensure users have `capabilities` whenever
+ * the `user` is accessed.
  */
 users.pre('find', function() {
   try {
-    this.populate('capabilities');
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-users.pre('save', function() {
-  try {
+    console.log('Triggered users.pre(find)');
     this.populate('capabilities');
   } catch (err) {
     console.error(err);
@@ -58,6 +50,7 @@ users.pre('save', function() {
 
 users.pre('findOne', function() {
   try {
+    console.log('Triggered users.pre(findOne)');
     this.populate('capabilities');
   } catch (err) {
     console.error(err);
@@ -66,6 +59,16 @@ users.pre('findOne', function() {
 
 users.pre('findById', function() {
   try {
+    console.log('Triggered users.pre(findById)');
+    this.populate('capabilities');
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+users.pre('save', function() {
+  try {
+    console.log('Triggered users.pre(save)');
     this.populate('capabilities');
   } catch (err) {
     console.error(err);
@@ -154,7 +157,6 @@ users.statics.authenticateToken = function(token) {
  */
 users.statics.authenticateBasic = function(auth) {
   const query = { username: auth.username };
-  console.log('authenticate Basic:', query);
   return this.findOne(query)
     .then(user => user && user.comparePassword(auth.password))
     .catch(console.error);
@@ -176,7 +178,6 @@ users.methods.comparePassword = function(password) {
  * @param type {string} Specify a type of token to generate
  **/
 users.methods.generateToken = function(type) {
-  console.log(`this from generateToken: ${this}`);
   const tokenData = {
     id: this._id,
     capabilities: (this.capabilities && this.capabilities.capabilities) || [],
@@ -196,8 +197,8 @@ users.methods.generateToken = function(type) {
  * @param capability {string} The capability required for authorization
  */
 users.methods.can = function(capability) {
-  console.log('CAPABILITIES:', this.capabilities.capabilities);
-  return this.capabilities.capabilities.includes(capability);
+  const capabilities = this.capabilities.capabilities || this.capabilities[0].capabilities;
+  return capabilities.includes(capability);
 };
 
 /**
