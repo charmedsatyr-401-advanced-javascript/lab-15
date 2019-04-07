@@ -1,6 +1,6 @@
 'use strict';
 
-const booksSchema = require('./books-schema.js');
+const booksSchema = require('./books.schema.js');
 
 /**
  * @param schema {object} Mongoose schema

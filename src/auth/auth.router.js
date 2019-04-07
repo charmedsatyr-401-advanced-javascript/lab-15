@@ -8,9 +8,9 @@
 const express = require('express');
 const authRouter = express.Router();
 
-const User = require('./users-model.js');
+const User = require('./users.model.js');
 const auth = require('./middleware.js');
-const oauth = require('./oauth/google.js');
+// const oauth = require('./oauth/google.js');
 
 /**
  * @function
@@ -49,6 +49,7 @@ authRouter.post('/signin', auth(), (req, res, next) => {
 });
 
 /**
+ * *UNTESTED*
  * Used when signing in via Google
  * @function
  * @name /signin POST route handler
@@ -56,6 +57,7 @@ authRouter.post('/signin', auth(), (req, res, next) => {
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  */
+/*
 authRouter.get('/oauth', (req, res, next) => {
   oauth
     .authorize(req)
@@ -64,6 +66,7 @@ authRouter.get('/oauth', (req, res, next) => {
     })
     .catch(next);
 });
+*/
 
 /**
  * Used to generate a permanent access key

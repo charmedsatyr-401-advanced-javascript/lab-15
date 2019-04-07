@@ -27,14 +27,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routers
-const adminRouter = require('./api/admin.js'); // Routes intended for admin use
-app.use(adminRouter);
+const authAdminRouter = require('./auth/auth-admin.router.js'); // Auth routes intended for admin use
+app.use(authAdminRouter);
 
-const authRouter = require('./auth/router.js');
+const authRouter = require('./auth/auth.router.js'); // General auth routes
 app.use(authRouter);
 
-const bookRoutes = require('./api/v1.js');
-app.use(bookRoutes);
+const v1AdminRouter = require('./api/v1-admin.router.js'); // API routes intended for admin use
+app.use(v1AdminRouter);
+
+const v1Router = require('./api/v1.router.js'); // General api routes
+app.use(v1Router);
 
 // Catchalls
 app.use('*', notFound);

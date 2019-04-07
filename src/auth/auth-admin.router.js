@@ -2,8 +2,8 @@
 
 const router = require('express').Router();
 const auth = require('../auth/middleware.js');
-const Roles = require('../auth/roles-model.js');
-const Users = require('../auth/users-model.js');
+const Roles = require('../auth/roles.model.js');
+const Users = require('../auth/users.model.js');
 
 router.get('/error', auth('read'), auth('create'), auth('update'), auth('delete'), forceErr);
 router.get('/users', auth('read'), auth('create'), auth('update'), auth('delete'), getUsers);

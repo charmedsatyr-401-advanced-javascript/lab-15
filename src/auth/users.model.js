@@ -2,13 +2,13 @@
 
 /**
  * users model - a mongoose schema with custom methods as validation helpers
- * @module auth/users-model
+ * @module auth/users.model
  */
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('./roles-model.js');
+require('./roles.model.js');
 
 // A set of used single-used tokens
 const usedTokens = new Set();
