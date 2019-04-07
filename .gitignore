@@ -1,3 +1,6 @@
+# Local VS Code settings
+.vscode
+
 # MongoDB local data
 data
 
