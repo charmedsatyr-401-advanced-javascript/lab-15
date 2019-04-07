@@ -8,7 +8,8 @@
     "watch": "nodemon index.js",
     "test": "jest --coverage --verbose",
     "test-watch": "jest --coverage --verbose --watch",
-    "lint": "eslint '**/*.js'"
+    "lint": "eslint '**/*.js'",
+    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json"
   },
   "repository": {
     "type": "git",
