@@ -1,12 +1,14 @@
 'use strict';
 
+// Import environmental variables
 require('dotenv').config();
 
 // Import the server's `start` method
 const { start } = require('./src/server.js');
 
-// Start up DB Server
+// Start up database server with options
 const mongoose = require('mongoose');
+
 const options = {
   useNewUrlParser: true,
   useCreateIndex: true,
