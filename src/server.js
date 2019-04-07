@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Server module - Integrates the logic of the application
+ * and exports the Express `app` instance and `start` method.
+ * @module src/server
+ **/
+
 // 3rd party resources
 const express = require('express');
 const cors = require('cors');
@@ -21,16 +27,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routers
-app.get('/', (req, res, next) => {
-  res.status(200).send('Server up and running...');
-});
+const bookRoutes = require('./api/book-routes.js');
+app.use(bookRoutes);
 
 // Error route
-const DEV = process.env.NODE_ENV && 'development';
-if (DEV) {
-  const forceErr = (req, res, next) => next('Error!');
-  app.get('/error', forceErr);
-}
+const forceErr = (req, res, next) => next('Error!');
+app.get('/error', forceErr);
 
 // Catchalls
 app.use('*', notFound);
@@ -38,6 +40,10 @@ app.use(serverError);
 
 let isRunning = false;
 
+/**
+ * Exported function to start the Express server
+ * @param port {number} Port used for the server
+ */
 module.exports = {
   server: app,
   start: port => {
