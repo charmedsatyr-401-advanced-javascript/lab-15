@@ -5,10 +5,9 @@ const auth = require('../auth/middleware.js');
 const Roles = require('../auth/roles.schema.js');
 const Users = require('../auth/users.schema.js');
 
-router.get('/error', forceErr);
-router.get('/users', getUsers);
-router.post('/roles', addRole);
-
+router.get('/error', auth('read'), auth('create'), auth('update'), auth('delete'), forceErr);
+router.get('/users', auth('read'), auth('create'), auth('update'), auth('delete'), getUsers);
+router.post('/roles', auth('read'), auth('create'), auth('update'), auth('delete'), addRole);
 router.post('/autopopulate-roles', autoPopulateRoles);
 router.post('/autopopulate-users', autoPopulateUsers);
 

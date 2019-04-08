@@ -99,13 +99,13 @@ Not fully implemented or connected with the rest of the application.
 
 #### `.src/auth/auth-admin.router.js`
 ##### Exported Values and Methods
-This module is under development and is intended for system administrators and testing purposes. It exports an Express `router` with multiple endpoints:
+This module is under development and is intended for system administrators and testing purposes. It exports an Express `router` with multiple endpoints.
 
 * `GET`
   * `/error` → This route forces a server error and is used for testing.
   * `/users` → This route logs all user data in the server console.
 * `POST`
-  * `/roles` → This route accepts a JSON object corresponding to the `Roles` schema in `./src/auth/roles.schema.js` in the request body. It adds a corresponding `role` to the database and returns the record.
+  * `/roles` → This route accepts a JSON object corresponding to the `Roles` schema in `./src/auth/roles.schema.js` in the request body. It adds a corresponding `role` to the database and returns the record.  This route requires `read`, `create`, `update`, and `delete` capabilities.
   * `/autopopulate-roles` → This route auto-populates the `roles` collection with standard `admin`, `editor`, and `user` entries with the appropriate capabilities.
   * `/autopopulate-users` → This route auto-populates the `Users` collection with dummy `admin`, `editor`, and `user` entries with matching `username`s, `password`s, and `role`s.
 
@@ -237,9 +237,9 @@ Using the `httpie` application or a similar program, send the following commands
 
 * `echo '{"role":"user", "capabilities":["read"]}' | http :3000/roles`
 
-Note that once an `admin` role and user have been created, you can simply `POST` to `/autopopulate-roles` with the appropriate authorization, to populate the remaining roles, e.g.:
+Note that you can simply `POST` to `/autopopulate-roles` to populate the standard roles, e.g.:
 
-* `http post :3000/autopopulate-roles -a admin:admin`
+* `http post :3000/autopopulate-roles`
 
 ###### Signing Up
 Using the `httpie` application or a similar program, send the following commands to the server (you may use a custom username and password throughout):
@@ -253,9 +253,9 @@ Using the `httpie` application or a similar program, send the following commands
 `admin` capabilities:
 * `echo '{"username":"admin", "password":"admin", "role":"admin"}' | http post :3000/signup`
 
-Note again that for testing purposes, you may `POST` to `/autopopulate-users` with `admin` capabilities, to populate dummy users, e.g.:
+Note again that for testing purposes, you may `POST` to `/autopopulate-users` to populate dummy users, e.g.:
 
-* `http post :3000/autopopulate-users -a admin:admin`
+* `http post :3000/autopopulate-users`
 
 ###### Using Protected Routes
 You can interact with the protected routes using the following syntax and making substitutions for the words in all caps:
