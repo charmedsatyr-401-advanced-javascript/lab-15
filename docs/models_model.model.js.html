@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: middleware/404.js</title>
+    <title>JSDoc: Source: models/model.model.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: middleware/404.js</h1>
+    <h1 class="page-title">Source: models/model.model.js</h1>
 
     
 
@@ -29,25 +29,36 @@
             <pre class="prettyprint source linenums"><code>'use strict';
 
 /**
- * Error 404 Middleware
- * @module middleware/404
+ * @param schema {object} Mongoose schema
  */
+class ModelClass {
+  constructor(schema) {
+    this.schema = schema;
+  }
 
-/**
- * Sends a custom 404 response
- * @function
- * @param req {object} Express request object
- * @param res {object} Express response object
- * @param next {function} Express next function
- */
-module.exports = (req, res, next) => {
-  const error = { error: 'Resource Not Found' };
-  res.statusCode = 404;
-  res.statusMessage = 'Not Found';
-  res.setHeader('Content-Type', 'application/json');
-  res.write(JSON.stringify(error));
-  res.end();
-};
+  get(id) {
+    return id ? this.schema.findById(id) : this.schema.find();
+  }
+
+  post(obj) {
+    return new this.schema(obj).save();
+  }
+
+  // `patch` doesn't upsert; `put` does
+  patch(id, obj) {
+    return this.schema.findByIdAndUpdate(id, obj, { new: true });
+  }
+
+  put(id, obj) {
+    return this.schema.findByIdAndUpdate(id, obj, { new: true, upsert: true });
+  }
+
+  delete(id) {
+    return this.schema.findByIdAndDelete(id);
+  }
+}
+
+module.exports = ModelClass;
 </code></pre>
         </article>
     </section>

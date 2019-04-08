@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: middleware/404.js</title>
+    <title>JSDoc: Class: ModelClass</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,40 +17,180 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: middleware/404.js</h1>
+    <h1 class="page-title">Class: ModelClass</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>'use strict';
+        <h2><span class="attribs"><span class="type-signature"></span></span>ModelClass<span class="signature">(schema)</span><span class="type-signature"></span></h2>
+        
+    
+</header>
 
-/**
- * Error 404 Middleware
- * @module middleware/404
- */
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * Sends a custom 404 response
- * @function
- * @param req {object} Express request object
- * @param res {object} Express response object
- * @param next {function} Express next function
- */
-module.exports = (req, res, next) => {
-  const error = { error: 'Resource Not Found' };
-  res.statusCode = 404;
-  res.statusMessage = 'Not Found';
-  res.setHeader('Content-Type', 'application/json');
-  res.write(JSON.stringify(error));
-  res.end();
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+    <h4 class="name" id="ModelClass"><span class="type-signature"></span>new ModelClass<span class="signature">(schema)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>schema</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Mongoose schema</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_model.model.js.html">models/model.model.js</a>, <a href="models_model.model.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

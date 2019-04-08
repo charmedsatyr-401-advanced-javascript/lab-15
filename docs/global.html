@@ -647,7 +647,7 @@
     
 
     
-    <h4 class="name" id="createBook"><span class="type-signature"></span>createBook<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="createRecord"><span class="type-signature"></span>createRecord<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -655,7 +655,7 @@
 
 
 <div class="description">
-    Create a new book
+    Create a new record
 </div>
 
 
@@ -794,7 +794,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line44">line 44</a>
+        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -828,7 +828,7 @@
     
 
     
-    <h4 class="name" id="deleteBook"><span class="type-signature"></span>deleteBook<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="deleteRecord"><span class="type-signature"></span>deleteRecord<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -836,7 +836,7 @@
 
 
 <div class="description">
-    Delete a book
+    Delete a record
 </div>
 
 
@@ -975,7 +975,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line94">line 94</a>
+        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -1191,7 +1191,7 @@ This is useful for testing the `./src/middleware/500.js` export
     
 
     
-    <h4 class="name" id="getBooks"><span class="type-signature"></span>getBooks<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getAll"><span class="type-signature"></span>getAll<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1199,7 +1199,7 @@ This is useful for testing the `./src/middleware/500.js` export
 
 
 <div class="description">
-    Get all books or one book
+    Get all or one record
 </div>
 
 
@@ -1338,7 +1338,7 @@ This is useful for testing the `./src/middleware/500.js` export
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line28">line 28</a>
+        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -1700,7 +1700,7 @@ This is useful for testing the `./src/middleware/500.js` export
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line16">line 16</a>
+        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -2119,7 +2119,7 @@ This is useful for testing the `./src/middleware/500.js` export
     
 
     
-    <h4 class="name" id="patchBook"><span class="type-signature"></span>patchBook<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="module:middleware/model-finder"><span class="type-signature"></span>module:middleware/model-finder<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2127,7 +2127,10 @@ This is useful for testing the `./src/middleware/500.js` export
 
 
 <div class="description">
-    Patch a new book - does not upsert
+    Model Finder Middleware
+Evaluates req.params.model (i.e. /api/v1/:model/) and returns an instance of the specified model.
+Because node require is cached, the instance will only be created once, no matter how many times a model is called for.
+In the event the model is not found, node will throw a "MODULE_NOT_FOUND" error which the error middleware in the server will pick up.
 </div>
 
 
@@ -2266,7 +2269,7 @@ This is useful for testing the `./src/middleware/500.js` export
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line77">line 77</a>
+        <a href="middleware_model-finder.js.html">middleware/model-finder.js</a>, <a href="middleware_model-finder.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -2300,7 +2303,7 @@ This is useful for testing the `./src/middleware/500.js` export
     
 
     
-    <h4 class="name" id="randomBook"><span class="type-signature"></span>randomBook<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="patchRecord"><span class="type-signature"></span>patchRecord<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2308,7 +2311,7 @@ This is useful for testing the `./src/middleware/500.js` export
 
 
 <div class="description">
-    Generate a random book for testing purposes
+    Patch a new record - does not upsert
 </div>
 
 
@@ -2447,7 +2450,7 @@ This is useful for testing the `./src/middleware/500.js` export
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_v1-admin.router.js.html">api/v1-admin.router.js</a>, <a href="api_v1-admin.router.js.html#line16">line 16</a>
+        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -2481,7 +2484,7 @@ This is useful for testing the `./src/middleware/500.js` export
     
 
     
-    <h4 class="name" id="updateBook"><span class="type-signature"></span>updateBook<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="randomRecord"><span class="type-signature"></span>randomRecord<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2489,7 +2492,11 @@ This is useful for testing the `./src/middleware/500.js` export
 
 
 <div class="description">
-    Update a book - upserts if the record does not exist
+    Generate a random record for testing purposes
+TODO: Currently hardcoded to use the `book` model's attributes but could be
+made more dynamic through dynamic key and value-type setting
+based on the model's Mongoose schema.
+BETTER: Similar functionality could be added through a static method on each model.
 </div>
 
 
@@ -2628,7 +2635,188 @@ This is useful for testing the `./src/middleware/500.js` export
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line60">line 60</a>
+        <a href="api_v1-admin.router.js.html">api/v1-admin.router.js</a>, <a href="api_v1-admin.router.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updateRecord"><span class="type-signature"></span>updateRecord<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Update a record - upserts if the record does not exist
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express request object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express response object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express middleware function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_v1.router.js.html">api/v1.router.js</a>, <a href="api_v1.router.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -2672,13 +2860,13 @@ This is useful for testing the `./src/middleware/500.js` export
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="auth_users.module_model.html">model</a></li><li><a href="module-auth_middleware.html">auth/middleware</a></li><li><a href="module-auth_router.html">auth/router</a></li><li><a href="module-middleware_404.html">middleware/404</a></li><li><a href="module-middleware_error.html">middleware/error</a></li><li><a href="module-src_server.html">src/server</a></li></ul><h3>Classes</h3><ul><li><a href="BooksModel.html">BooksModel</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addRole">addRole</a></li><li><a href="global.html#autoPopulateRoles">autoPopulateRoles</a></li><li><a href="global.html#autoPopulateUsers">autoPopulateUsers</a></li><li><a href="global.html#createBook">createBook</a></li><li><a href="global.html#deleteBook">deleteBook</a></li><li><a href="global.html#forceErr">forceErr</a></li><li><a href="global.html#getBooks">getBooks</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#home">home</a></li><li><a href="global.html#patchBook">patchBook</a></li><li><a href="global.html#randomBook">randomBook</a></li><li><a href="global.html#updateBook">updateBook</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="auth_users.module_model.html">model</a></li><li><a href="module-auth_middleware.html">auth/middleware</a></li><li><a href="module-auth_router.html">auth/router</a></li><li><a href="module-middleware_404.html">middleware/404</a></li><li><a href="module-middleware_error.html">middleware/error</a></li><li><a href="module-middleware_model-finder.html">middleware/model-finder</a></li><li><a href="module-src_server.html">src/server</a></li></ul><h3>Classes</h3><ul><li><a href="ModelClass.html">ModelClass</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addRole">addRole</a></li><li><a href="global.html#autoPopulateRoles">autoPopulateRoles</a></li><li><a href="global.html#autoPopulateUsers">autoPopulateUsers</a></li><li><a href="global.html#createRecord">createRecord</a></li><li><a href="global.html#deleteRecord">deleteRecord</a></li><li><a href="global.html#forceErr">forceErr</a></li><li><a href="global.html#getAll">getAll</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#home">home</a></li><li><a href="global.html#patchRecord">patchRecord</a></li><li><a href="global.html#randomRecord">randomRecord</a></li><li><a href="global.html#updateRecord">updateRecord</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Apr 07 2019 15:29:47 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Apr 07 2019 19:01:07 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

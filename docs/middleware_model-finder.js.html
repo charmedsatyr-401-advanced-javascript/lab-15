@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: middleware/404.js</title>
+    <title>JSDoc: Source: middleware/model-finder.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: middleware/404.js</h1>
+    <h1 class="page-title">Source: middleware/model-finder.js</h1>
 
     
 
@@ -27,26 +27,24 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
+/**
+ * Model Finder Middleware
+ * @module middleware/model-finder
+ **/
 
 /**
- * Error 404 Middleware
- * @module middleware/404
- */
-
-/**
- * Sends a custom 404 response
- * @function
+ * Model Finder Middleware
+ * Evaluates req.params.model (i.e. /api/v1/:model/) and returns an instance of the specified model.
+ * Because node require is cached, the instance will only be created once, no matter how many times a model is called for.
+ * In the event the model is not found, node will throw a "MODULE_NOT_FOUND" error which the error middleware in the server will pick up.
  * @param req {object} Express request object
  * @param res {object} Express response object
- * @param next {function} Express next function
- */
+ * @param next {function} Express middleware function
+ **/
 module.exports = (req, res, next) => {
-  const error = { error: 'Resource Not Found' };
-  res.statusCode = 404;
-  res.statusMessage = 'Not Found';
-  res.setHeader('Content-Type', 'application/json');
-  res.write(JSON.stringify(error));
-  res.end();
+  const model = req.params.model.replace(/[^a-z0-9-_]/gi, '');
+  req.model = require(`../models/${model}/${model}.model.js`);
+  next();
 };
 </code></pre>
         </article>
