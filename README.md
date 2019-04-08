@@ -105,7 +105,7 @@ This module is under development and is intended for system administrators and t
   * `/error` → This route forces a server error and is used for testing.
   * `/users` → This route logs all user data in the server console.
 * `POST`
-  * `/roles` → This route accepts a JSON object corresponding to the `Roles` schema in `./src/auth/roles.schema.js` in the request body. It adds a corresponding `role` to the database and returns the record.
+  * `/roles` → This route accepts a JSON object corresponding to the `Roles` schema in `./src/auth/roles.schema.js` in the request body. It adds a corresponding `role` to the database and returns the record. This route does not require permissions.
   * `/autopopulate-roles` → This route auto-populates the `roles` collection with standard `admin`, `editor`, and `user` entries with the appropriate capabilities.
   * `/autopopulate-users` → This route auto-populates the `Users` collection with dummy `admin`, `editor`, and `user` entries with matching `username`s, `password`s, and `role`s.
 
