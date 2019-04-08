@@ -36,7 +36,7 @@ app.use(
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       // look in urlencoded POST bodies and delete `_method`
       let method = req.body._method;
-      delete request.body._method;
+      delete req.body._method;
       return method;
     }
   })
