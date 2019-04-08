@@ -8,7 +8,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('./roles.model.js');
+require('./roles.schema.js');
 
 // A set of used single-used tokens
 const usedTokens = new Set();
@@ -32,7 +32,7 @@ users.virtual('capabilities', {
   ref: 'roles',
   localField: 'role',
   foreignField: 'role',
-  justOne: false, // Test this
+  justOne: false,
 });
 
 /**
@@ -41,7 +41,6 @@ users.virtual('capabilities', {
  */
 users.pre('find', function() {
   try {
-    console.log('Triggered users.pre(find)');
     this.populate('capabilities');
   } catch (err) {
     console.error(err);
@@ -50,7 +49,6 @@ users.pre('find', function() {
 
 users.pre('findOne', function() {
   try {
-    console.log('Triggered users.pre(findOne)');
     this.populate('capabilities');
   } catch (err) {
     console.error(err);
@@ -59,7 +57,6 @@ users.pre('findOne', function() {
 
 users.pre('findById', function() {
   try {
-    console.log('Triggered users.pre(findById)');
     this.populate('capabilities');
   } catch (err) {
     console.error(err);
@@ -68,7 +65,6 @@ users.pre('findById', function() {
 
 users.pre('save', function() {
   try {
-    console.log('Triggered users.pre(save)');
     this.populate('capabilities');
   } catch (err) {
     console.error(err);
@@ -94,6 +90,54 @@ users.pre('save', function(next) {
       throw error;
     });
 });
+
+/**
+ * A static class method that queries the database for a user
+ * and authenticates their password using the `bcrypt`-based
+ * `comparePassword` method.
+ * @function
+ * @name authenticateBasic
+ * @param auth {object} Receives the `user` object
+ */
+users.statics.authenticateBasic = function(auth) {
+  const query = { username: auth.username };
+  return this.findOne(query)
+    .then(user => user && user.comparePassword(auth.password))
+    .catch(console.error);
+};
+
+/**
+ * Compare a plain text password against the hashed one we have saved
+ * @function
+ * @name comparePassword
+ * @param password {string} The password submitted from the client
+ **/
+users.methods.comparePassword = function(password) {
+  return bcrypt.compare(password, this.password).then(valid => (valid ? this : null));
+};
+
+/**
+ * This function supports single-use tokens, tokens with an expiration
+ * time, and permanent access keys.
+ * @function
+ * @name authenticateToken
+ * @param token {string} The user's authentication token
+ */
+users.statics.authenticateToken = function(token) {
+  console.log('Authenticating Token:', token);
+  if (usedTokens.has(token)) {
+    return Promise.reject('Invalid Token');
+  }
+
+  try {
+    const parsedToken = jwt.verify(token, process.env.SECRET);
+    process.env.SINGLE_USE_TOKENS && parsedToken.type !== 'key' && usedTokens.add(token);
+    const query = { _id: parsedToken.id };
+    return this.findOne(query);
+  } catch (err) {
+    throw new Error('Invalid Token');
+  }
+};
 
 /**
  * Use the user's email from their chosen OAuth service
@@ -125,53 +169,6 @@ users.statics.createFromOauth = function(email) {
 };
 
 /**
- * This function supports single-use tokens, tokens with an expiration
- * time, and permanent access keys.
- * @function
- * @name authenticateToken
- * @param token {string} The user's authentication token
- */
-users.statics.authenticateToken = function(token) {
-  console.log('Authenticating Token:', token);
-  if (usedTokens.has(token)) {
-    return Promise.reject('Invalid Token');
-  }
-
-  try {
-    const parsedToken = jwt.verify(token, process.env.SECRET);
-    process.env.SINGLE_USE_TOKENS && parsedToken.type !== 'key' && usedTokens.add(token);
-    const query = { _id: parsedToken.id };
-    return this.findOne(query);
-  } catch (err) {
-    throw new Error('Invalid Token');
-  }
-};
-
-/**
- * A static class method that queries the database for a user
- * and authenticates their password using the `bcrypt`-based
- * `comparePassword` method.
- * @function
- * @name authenticateBasic
- * @param auth {object} Receives the `user` object
- */
-users.statics.authenticateBasic = function(auth) {
-  const query = { username: auth.username };
-  return this.findOne(query)
-    .then(user => user && user.comparePassword(auth.password))
-    .catch(console.error);
-};
-/**
- * Compare a plain text password against the hashed one we have saved
- * @function
- * @name comparePassword
- * @param password {string} The password submitted from the client
- **/
-users.methods.comparePassword = function(password) {
-  return bcrypt.compare(password, this.password).then(valid => (valid ? this : null));
-};
-
-/**
  * Generate a JWT from the user id and a secret
  * @function
  * @name generateToken
@@ -180,7 +177,10 @@ users.methods.comparePassword = function(password) {
 users.methods.generateToken = function(type) {
   const tokenData = {
     id: this._id,
-    capabilities: (this.capabilities && this.capabilities.capabilities) || [],
+    capabilities:
+      (this.capabilities && this.capabilities.capabilities) ||
+      (this.capabilities && this.capabilities[0] && this.capabilities[0].capabilities) ||
+      [],
     type: type || 'user',
   };
   const options = {};
@@ -188,6 +188,16 @@ users.methods.generateToken = function(type) {
     options.expiresIn = process.env.TOKEN_EXPIRE;
   }
   return jwt.sign(tokenData, process.env.SECRET, options);
+};
+
+/**
+ * Calls the `generateToken` method with the argument `key`
+ * and returns the result.
+ * @function
+ * @name generateKey
+ */
+users.methods.generateKey = function() {
+  return this.generateToken('key');
 };
 
 /**
@@ -199,16 +209,6 @@ users.methods.generateToken = function(type) {
 users.methods.can = function(capability) {
   const capabilities = this.capabilities.capabilities || this.capabilities[0].capabilities;
   return capabilities.includes(capability);
-};
-
-/**
- * Calls the `generateToken` method with the argument `key`
- * and returns the result.
- * @function
- * @name generateKey
- */
-users.methods.generateKey = function() {
-  return this.generateToken('key');
 };
 
 module.exports = mongoose.model('users', users);

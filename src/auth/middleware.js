@@ -6,7 +6,7 @@
  */
 
 // Import the mongoose user model
-const User = require('./users.model.js');
+const User = require('./users.schema.js');
 
 /**
  * Parses authorization headers and uses internal methods to validate user.

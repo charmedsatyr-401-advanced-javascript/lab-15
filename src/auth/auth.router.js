@@ -8,9 +8,15 @@
 const express = require('express');
 const authRouter = express.Router();
 
-const User = require('./users.model.js');
+const User = require('./users.schema.js');
 const auth = require('./middleware.js');
 // const oauth = require('./oauth/google.js');
+
+// Routes
+authRouter.post('/signup', signup);
+authRouter.post('/signin', auth(), signin);
+// authRouter.post('/oauth', oauth);
+authRouter.post('/key', auth(), key);
 
 /**
  * @function
@@ -19,8 +25,8 @@ const auth = require('./middleware.js');
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  */
-authRouter.post('/signup', (req, res, next) => {
-  let user = new User(req.body);
+function signup(req, res, next) {
+  const user = new User(req.body);
   user
     .save()
     .then(user => {
@@ -34,7 +40,7 @@ authRouter.post('/signup', (req, res, next) => {
       });
     })
     .catch(next);
-});
+}
 
 /**
  * @function
@@ -43,10 +49,10 @@ authRouter.post('/signup', (req, res, next) => {
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  */
-authRouter.post('/signin', auth(), (req, res, next) => {
+function signin(req, res, next) {
   res.cookie('auth', req.token);
   res.send(req.token);
-});
+}
 
 /**
  * *UNTESTED*
@@ -58,15 +64,14 @@ authRouter.post('/signin', auth(), (req, res, next) => {
  * @param next {function} Express middleware function
  */
 /*
-authRouter.get('/oauth', (req, res, next) => {
+function oauth(req, res, next) {
   oauth
     .authorize(req)
     .then(token => {
       res.status(200).send(token);
     })
     .catch(next);
-});
-*/
+}
 
 /**
  * Used to generate a permanent access key
@@ -76,9 +81,9 @@ authRouter.get('/oauth', (req, res, next) => {
  * @param res {object} Express response object
  * @param next {function} Express middleware function
  */
-authRouter.post('/key', auth(), (req, res, next) => {
+function key(req, res, next) {
   const key = req.user.generateKey();
   res.status(200).send(key);
-});
+}
 
 module.exports = authRouter;
