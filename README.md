@@ -7,7 +7,7 @@
 
 ### Links and Resources
 * [repo](https://github.com/charmedsatyr-401-advanced-javascript/lab-15)
-* [travis](https://xyz.com)
+* [![Build Status](https://travis-ci.org/charmedsatyr-401-advanced-javascript/lab-15.svg?branch=submission)](https://travis-ci.org/charmedsatyr-401-advanced-javascript/lab-15)
 * [back-end](https://floating-journey-24708.herokuapp.com/)
 
 #### Documentation
