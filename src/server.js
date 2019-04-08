@@ -6,10 +6,14 @@
  * @module src/server
  **/
 
+// Path
+const cwd = process.cwd();
+
 // 3rd party resources
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const methodOverride = require('method-override');
 
 // Catchalls
 const notFound = require('./middleware/404.js');
@@ -26,7 +30,25 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routers
+// Method Override Middleware
+app.use(
+  methodOverride((req, res) => {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete `_method`
+      let method = req.body._method;
+      delete request.body._method;
+      return method;
+    }
+  })
+);
+
+// Documentation
+app.use('/docs', express.static(`${cwd}/docs`));
+const swaggerUI = require('swagger-ui-express');
+const swaggerDocument = require(`${cwd}/docs/config/swagger.json`);
+app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
+// API Routers
 const authAdminRouter = require('./auth/auth-admin.router.js'); // Auth routes intended for admin use
 app.use(authAdminRouter);
 
